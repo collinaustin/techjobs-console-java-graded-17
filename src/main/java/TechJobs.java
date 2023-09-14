@@ -61,10 +61,22 @@ public class TechJobs {
                 System.out.println("\nSearch term:");
                 String searchTerm = in.nextLine();
 
+                // Fix capitalization issue
+                String[] capSearch = searchTerm.split(" ");
+                for (int i = 0; i < capSearch.length; i++) {
+                    String firstLetter = capSearch[i].substring(0,1);
+                    String restOfWord = capSearch[i].substring(1);
+
+                    firstLetter = firstLetter.toUpperCase();
+                    capSearch[i] = firstLetter + restOfWord.toLowerCase();
+                }
+
+                String capTerm = String.join(" ", capSearch);
+
                 if (searchField.equals("all")) {
-                    printJobs(JobData.findByValue(searchTerm));
+                    printJobs(JobData.findByValue(capTerm));
                 } else {
-                    printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+                    printJobs(JobData.findByColumnAndValue(searchField, capTerm));
                 }
             }
         }
